@@ -1,0 +1,55 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Widget.SMB_5.AppWidget.Container"
+    android:theme="@style/Theme.SMB_5.AppWidgetContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <Button
+        android:id="@+id/button_webpage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="Webpage" />
+
+    <Button
+        android:id="@+id/button_play"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/button_webpage"
+        android:layout_centerHorizontal="true"
+        android:text="Play" />
+
+    <Button
+        android:id="@+id/button_next_song"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/button_play"
+        android:layout_below="@id/button_webpage"
+        android:text="Next" />
+
+    <Button
+        android:id="@+id/button_previous_song"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@+id/button_play"
+        android:layout_below="@id/button_webpage"
+        android:text="Previous" />
+
+
+    <!--    <ImageButton-->
+<!--        android:id="@+id/imageButton_next_song"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_toRightOf="@+id/button_play"-->
+<!--        android:layout_below="@id/button_webpage"-->
+<!--        app:srcCompat="?attr/homeAsUpIndicator" />-->
+
+<!--    <ImageButton-->
+<!--        android:id="@+id/imageButton_previous_song"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_toLeftOf="@+id/button_play"-->
+<!--        android:layout_below="@id/button_webpage"-->
+<!--        app:srcCompat="?attr/homeAsUpIndicator" />-->
+</RelativeLayout>
