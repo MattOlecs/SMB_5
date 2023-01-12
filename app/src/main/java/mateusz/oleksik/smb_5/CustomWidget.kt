@@ -126,6 +126,7 @@ internal fun updateAppWidget(
     appWidgetManager.updateAppWidget(appWidgetId, views)
 }
 
+//Creates pending intent for action name provided in argument
 internal fun getPendingIntentForAction(context: Context, id: Int, actionName: String): PendingIntent {
     val intent = Intent(actionName)
     intent.`package` = context.packageName
@@ -137,6 +138,7 @@ internal fun getPendingIntentForAction(context: Context, id: Int, actionName: St
     )
 }
 
+//Schedules job for service responsible for playing music
 internal fun scheduleMusicPlayerJob(context: Context, jobTypeFlag: String){
     val bundle = PersistableBundle()
     bundle.putString(Constants.JOB_TYPE_BUNDLE_KEY, jobTypeFlag)
