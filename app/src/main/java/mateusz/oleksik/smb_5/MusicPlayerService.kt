@@ -36,6 +36,7 @@ class MusicPlayerService : JobService() {
             Constants.MUSIC_JOB_PLAY_OR_PAUSE_SONG_FLAG -> playOrPauseMusic()
             Constants.MUSIC_JOB_NEXT_SONG_FLAG -> nextSong()
             Constants.MUSIC_JOB_PREVIOUS_SONG_FLAG -> previousSong()
+            Constants.MUSIC_JOB_STOP_SONG_FLAG -> stopSong()
         }
 
         return true
@@ -94,6 +95,12 @@ class MusicPlayerService : JobService() {
         Toast.makeText(applicationContext, "Currently playing: ${songs[songIndex].pathSegments.last()}", Toast.LENGTH_LONG).show()
         Log.i("MUSIC_PLAYER","PREVIOUS SONG ACTION: Currently playing: ${songs[songIndex].pathSegments.last()}")
         currentTrackIndex = songIndex
+    }
+
+    private fun stopSong() {
+        mediaPlayer?.stop()
+        mediaPlayer?.release()
+        isInitialized = false
     }
 
     private fun mediaPlayerInitialization(){

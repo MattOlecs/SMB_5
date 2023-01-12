@@ -10,13 +10,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="Webpage" />
+        android:text="Open webpage" />
+
+
+    <TextView
+        android:id="@+id/textView_music_player"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/button_webpage"
+        android:layout_centerHorizontal="true"
+        android:text="--- MUSIC PLAYER ---" />
 
     <Button
         android:id="@+id/button_play"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/button_webpage"
+        android:layout_below="@id/textView_music_player"
         android:layout_centerHorizontal="true"
         android:text="Play" />
 
@@ -25,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@+id/button_play"
-        android:layout_below="@id/button_webpage"
+        android:layout_below="@id/textView_music_player"
         android:text="Next" />
 
     <Button
@@ -33,23 +42,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_toLeftOf="@+id/button_play"
-        android:layout_below="@id/button_webpage"
+        android:layout_below="@id/textView_music_player"
         android:text="Previous" />
 
+    <Button
+        android:id="@+id/button_stop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/button_play"
+        android:layout_centerHorizontal="true"
+        android:text="Stop" />
 
-    <!--    <ImageButton-->
-<!--        android:id="@+id/imageButton_next_song"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_toRightOf="@+id/button_play"-->
-<!--        android:layout_below="@id/button_webpage"-->
-<!--        app:srcCompat="?attr/homeAsUpIndicator" />-->
-
-<!--    <ImageButton-->
-<!--        android:id="@+id/imageButton_previous_song"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_toLeftOf="@+id/button_play"-->
-<!--        android:layout_below="@id/button_webpage"-->
-<!--        app:srcCompat="?attr/homeAsUpIndicator" />-->
 </RelativeLayout>

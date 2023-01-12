@@ -8,7 +8,6 @@ import android.appwidget.AppWidgetProvider
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.media.MediaPlayer
 import android.net.Uri
 import android.os.PersistableBundle
 import android.widget.RemoteViews
@@ -17,11 +16,8 @@ import android.widget.Toast
 class CustomWidget : AppWidgetProvider() {
 
     private var requestCode = 0
-    private lateinit var _mediaPlayer: MediaPlayer
 
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
-        // There may be multiple widgets active, so update all of them
-
         for (appWidgetId in appWidgetIds) {
             updateAppWidget(context, appWidgetManager, appWidgetId, requestCode++)
         }
@@ -31,9 +27,7 @@ class CustomWidget : AppWidgetProvider() {
         Toast.makeText(context, "On enabled" , Toast.LENGTH_LONG).show()
     }
 
-    override fun onDisabled(context: Context) {
-        // Enter relevant functionality for when the last widget is disabled
-    }
+    override fun onDisabled(context: Context) {}
 
     override fun onReceive(context: Context?, intent: Intent?) {
         super.onReceive(context, intent)
@@ -62,6 +56,11 @@ class CustomWidget : AppWidgetProvider() {
         if(intent?.action.equals(Constants.PREVIOUS_SONG_MUSIC_ACTION)){
             Toast.makeText(context, "Performing action: ${Constants.PREVIOUS_SONG_MUSIC_ACTION}", Toast.LENGTH_SHORT).show()
             scheduleMusicPlayerJob(context!!, Constants.MUSIC_JOB_PREVIOUS_SONG_FLAG)
+        }
+
+        if(intent?.action.equals(Constants.STOP_SONG_MUSIC_ACTION)){
+            Toast.makeText(context, "Performing action: ${Constants.STOP_SONG_MUSIC_ACTION}", Toast.LENGTH_SHORT).show()
+            scheduleMusicPlayerJob(context!!, Constants.MUSIC_JOB_STOP_SONG_FLAG)
         }
     }
 }
@@ -117,6 +116,17 @@ internal fun updateAppWidget(
         PendingIntent.FLAG_MUTABLE
     )
     views.setOnClickPendingIntent(R.id.button_previous_song, previousSongMusicPendingIntent)
+
+    //Stop song music intent
+    val stopSongMusicIntent = Intent(Constants.STOP_SONG_MUSIC_ACTION)
+    stopSongMusicIntent.`package` = context.packageName
+    val stopSongMusicPendingIntent = PendingIntent.getBroadcast(
+        context,
+        appWidgetId,
+        stopSongMusicIntent,
+        PendingIntent.FLAG_MUTABLE
+    )
+    views.setOnClickPendingIntent(R.id.button_stop, stopSongMusicPendingIntent)
 
     // Instruct the widget manager to update the widget
     appWidgetManager.updateAppWidget(appWidgetId, views)
