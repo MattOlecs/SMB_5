@@ -15,11 +15,9 @@ import android.widget.Toast
 
 class CustomWidget : AppWidgetProvider() {
 
-    private var requestCode = 0
-
     override fun onUpdate(context: Context, appWidgetManager: AppWidgetManager, appWidgetIds: IntArray) {
         for (appWidgetId in appWidgetIds) {
-            updateAppWidget(context, appWidgetManager, appWidgetId, requestCode++)
+            updateAppWidget(context, appWidgetManager, appWidgetId)
         }
     }
 
@@ -28,6 +26,10 @@ class CustomWidget : AppWidgetProvider() {
     }
 
     override fun onDisabled(context: Context) {}
+
+    companion object {
+        var currentImage = "picture_1"
+    }
 
     override fun onReceive(context: Context?, intent: Intent?) {
         super.onReceive(context, intent)
@@ -38,28 +40,53 @@ class CustomWidget : AppWidgetProvider() {
 
             val intent2 = Intent(Intent.ACTION_VIEW, Uri.parse("https://pja.edu.pl/"))
             intent2.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            //intent2.`package` = "com.android.chrome"
             context?.startActivity(intent2)
+        }
+
+        //IMAGE
+        if(intent?.action.equals(Constants.SWITCH_IMAGE_ACTION)){
+            Toast.makeText(context, "Performing action: ${Constants.SWITCH_IMAGE_ACTION}", Toast.LENGTH_SHORT).show()
+            val remoteViews = RemoteViews(context!!.packageName, R.layout.custom_widget)
+
+            var drawableId: Int = R.drawable.picture_1 //default
+            when (currentImage){
+                "picture_1" -> {
+                    drawableId = R.drawable.picture_2
+                    currentImage = "picture_2"
+                }
+                "picture_2" -> {
+                    drawableId = R.drawable.picture_3
+                    currentImage = "picture_3"
+                }
+                "picture_3" -> {
+                    drawableId = R.drawable.picture_1
+                    currentImage = "picture_1"
+                }
+            }
+            remoteViews.setImageViewResource(R.id.imageView, drawableId)
+
+            val manager = AppWidgetManager.getInstance(context)
+            manager.updateAppWidget(ComponentName(context, CustomWidget::class.java), remoteViews)
         }
 
         //MUSIC
         if(intent?.action.equals(Constants.PLAY_MUSIC_ACTION)){
-            Toast.makeText(context, "Performing action: ${Constants.PLAY_MUSIC_ACTION}", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(context, "Performing action: ${Constants.PLAY_MUSIC_ACTION}", Toast.LENGTH_SHORT).show()
             scheduleMusicPlayerJob(context!!, Constants.MUSIC_JOB_PLAY_OR_PAUSE_SONG_FLAG)
         }
 
         if(intent?.action.equals(Constants.NEXT_SONG_MUSIC_ACTION)){
-            Toast.makeText(context, "Performing action: ${Constants.NEXT_SONG_MUSIC_ACTION}", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(context, "Performing action: ${Constants.NEXT_SONG_MUSIC_ACTION}", Toast.LENGTH_SHORT).show()
             scheduleMusicPlayerJob(context!!, Constants.MUSIC_JOB_NEXT_SONG_FLAG)
         }
 
         if(intent?.action.equals(Constants.PREVIOUS_SONG_MUSIC_ACTION)){
-            Toast.makeText(context, "Performing action: ${Constants.PREVIOUS_SONG_MUSIC_ACTION}", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(context, "Performing action: ${Constants.PREVIOUS_SONG_MUSIC_ACTION}", Toast.LENGTH_SHORT).show()
             scheduleMusicPlayerJob(context!!, Constants.MUSIC_JOB_PREVIOUS_SONG_FLAG)
         }
 
         if(intent?.action.equals(Constants.STOP_SONG_MUSIC_ACTION)){
-            Toast.makeText(context, "Performing action: ${Constants.STOP_SONG_MUSIC_ACTION}", Toast.LENGTH_SHORT).show()
+            //Toast.makeText(context, "Performing action: ${Constants.STOP_SONG_MUSIC_ACTION}", Toast.LENGTH_SHORT).show()
             scheduleMusicPlayerJob(context!!, Constants.MUSIC_JOB_STOP_SONG_FLAG)
         }
     }
@@ -69,67 +96,45 @@ internal fun updateAppWidget(
     context: Context,
     appWidgetManager: AppWidgetManager,
     appWidgetId: Int,
-    requestCode: Int
 ) {
     val views = RemoteViews(context.packageName, R.layout.custom_widget)
 
     //Webpage intent
-    val openWebPageIntent = Intent(Constants.WEBPAGE_ACTION)
-    openWebPageIntent.`package` = context.packageName
-    val openWebPagePendingIntent = PendingIntent.getBroadcast(
-        context,
-        appWidgetId,
-        openWebPageIntent,
-        PendingIntent.FLAG_MUTABLE
-    )
+    val openWebPagePendingIntent = getPendingIntentForAction(context, appWidgetId, Constants.WEBPAGE_ACTION)
     views.setOnClickPendingIntent(R.id.button_webpage, openWebPagePendingIntent)
 
+    //Switch image
+    val switchImagePendingIntent = getPendingIntentForAction(context, appWidgetId, Constants.SWITCH_IMAGE_ACTION)
+    views.setOnClickPendingIntent(R.id.button_image_switch, switchImagePendingIntent)
+
     //Play or Pause music intent
-    val playMusicIntent = Intent(Constants.PLAY_MUSIC_ACTION)
-    playMusicIntent.`package` = context.packageName
-    val playMusicPendingIntent = PendingIntent.getBroadcast(
-        context,
-        appWidgetId,
-        playMusicIntent,
-        PendingIntent.FLAG_MUTABLE
-    )
+    val playMusicPendingIntent = getPendingIntentForAction(context, appWidgetId, Constants.PLAY_MUSIC_ACTION)
     views.setOnClickPendingIntent(R.id.button_play, playMusicPendingIntent)
 
     //Next song music intent
-    val nextSongMusicIntent = Intent(Constants.NEXT_SONG_MUSIC_ACTION)
-    nextSongMusicIntent.`package` = context.packageName
-    val nextSongMusicPendingIntent = PendingIntent.getBroadcast(
-        context,
-        appWidgetId,
-        nextSongMusicIntent,
-        PendingIntent.FLAG_MUTABLE
-    )
+    val nextSongMusicPendingIntent = getPendingIntentForAction(context, appWidgetId, Constants.NEXT_SONG_MUSIC_ACTION)
     views.setOnClickPendingIntent(R.id.button_next_song, nextSongMusicPendingIntent)
 
     //Previous song music intent
-    val previousSongMusicIntent = Intent(Constants.PREVIOUS_SONG_MUSIC_ACTION)
-    previousSongMusicIntent.`package` = context.packageName
-    val previousSongMusicPendingIntent = PendingIntent.getBroadcast(
-        context,
-        appWidgetId,
-        previousSongMusicIntent,
-        PendingIntent.FLAG_MUTABLE
-    )
+    val previousSongMusicPendingIntent = getPendingIntentForAction(context, appWidgetId, Constants.PREVIOUS_SONG_MUSIC_ACTION)
     views.setOnClickPendingIntent(R.id.button_previous_song, previousSongMusicPendingIntent)
 
     //Stop song music intent
-    val stopSongMusicIntent = Intent(Constants.STOP_SONG_MUSIC_ACTION)
-    stopSongMusicIntent.`package` = context.packageName
-    val stopSongMusicPendingIntent = PendingIntent.getBroadcast(
-        context,
-        appWidgetId,
-        stopSongMusicIntent,
-        PendingIntent.FLAG_MUTABLE
-    )
+    val stopSongMusicPendingIntent = getPendingIntentForAction(context, appWidgetId, Constants.STOP_SONG_MUSIC_ACTION)
     views.setOnClickPendingIntent(R.id.button_stop, stopSongMusicPendingIntent)
 
-    // Instruct the widget manager to update the widget
     appWidgetManager.updateAppWidget(appWidgetId, views)
+}
+
+internal fun getPendingIntentForAction(context: Context, id: Int, actionName: String): PendingIntent {
+    val intent = Intent(actionName)
+    intent.`package` = context.packageName
+    return PendingIntent.getBroadcast(
+        context,
+        id,
+        intent,
+        PendingIntent.FLAG_MUTABLE
+    )
 }
 
 internal fun scheduleMusicPlayerJob(context: Context, jobTypeFlag: String){

@@ -5,19 +5,42 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="100sp"
+        android:layout_above="@id/button_image_switch"
+        android:src="@drawable/picture_1" />
+
+    <Button
+        android:id="@+id/button_image_switch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/textView_webpage"
+        android:layout_centerHorizontal="true"
+        android:text="Switch image" />
+
+    <TextView
+        android:id="@+id/textView_webpage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/button_webpage"
+        android:layout_centerHorizontal="true"
+        android:text="-- WEBPAGE OPENER--" />
+
     <Button
         android:id="@+id/button_webpage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_above="@id/textView_music_player"
+        android:layout_centerHorizontal="true"
         android:text="Open webpage" />
-
 
     <TextView
         android:id="@+id/textView_music_player"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/button_webpage"
+        android:layout_above="@id/button_play"
         android:layout_centerHorizontal="true"
         android:text="--- MUSIC PLAYER ---" />
 
@@ -25,31 +48,33 @@
         android:id="@+id/button_play"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/textView_music_player"
+        android:layout_above="@id/button_stop"
         android:layout_centerHorizontal="true"
-        android:text="Play" />
+        android:text="Play/Pause" />
 
     <Button
         android:id="@+id/button_next_song"
-        android:layout_width="wrap_content"
+        android:layout_width="110sp"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="3sp"
         android:layout_toRightOf="@+id/button_play"
-        android:layout_below="@id/textView_music_player"
+        android:layout_above="@id/button_stop"
         android:text="Next" />
 
     <Button
         android:id="@+id/button_previous_song"
-        android:layout_width="wrap_content"
+        android:layout_width="110sp"
+        android:layout_marginRight="3sp"
         android:layout_height="wrap_content"
+        android:layout_above="@id/button_stop"
         android:layout_toLeftOf="@+id/button_play"
-        android:layout_below="@id/textView_music_player"
         android:text="Previous" />
 
     <Button
         android:id="@+id/button_stop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/button_play"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:text="Stop" />
 

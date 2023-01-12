@@ -28,6 +28,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="mateusz.oleksik.smb_5.OPEN_WEB_PAGE" />
+                <action android:name="mateusz.oleksik.smb_5.SWITCH_IMAGE" />
                 <action android:name="mateusz.oleksik.smb_5.PLAY_MUSIC" />
                 <action android:name="mateusz.oleksik.smb_5.NEXT_SONG" />
                 <action android:name="mateusz.oleksik.smb_5.PREVIOUS_SONG" />
